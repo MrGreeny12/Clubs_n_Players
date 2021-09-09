@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
+from rest_framework import generics, filters
 from club.filters import ClubFilter, PlayerFilter
 from club.models import Club, Player
 from club.permissions import IsManagerOrAdminOrReadOnly, IsPresidentOrAdminOrReadOnly
@@ -38,7 +38,7 @@ class PlayerListView(generics.ListAPIView):
     '''
     serializer_class = PlayersListSerializer
     queryset = Player.objects.all()
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = PlayerFilter
 
 
@@ -70,5 +70,5 @@ class ClubListView(generics.ListAPIView):
     '''
     serializer_class = ClubsListSerializer
     queryset = Club.objects.all()
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = ClubFilter
